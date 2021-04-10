@@ -5,7 +5,7 @@ let movies = [
     Year: 1976,
     Genre: "Crime, Drama",
     Director: "Martin Scorcese",
-    Writer: "Paul Schrader"
+    Writer: "Paul Schrader",
   },
   {
     title: "Reservoir Dogs",
@@ -26,7 +26,7 @@ let movies = [
     year: 2016,
     genre: "Crime, Drama, Mystery",
     director: "Oriol Paulo",
-    writer: "Mario Casas, Ana Wagener, Jose Coronado"
+    writer: "Mario Casas, Ana Wagener"
   },
   {
     title: "Parasite",
@@ -34,7 +34,35 @@ let movies = [
     genre: "Comedy, Drama, Thriller",
     director: "Bong Joon Ho",
     writer: "Bong Joon Ho"
-  }
+  },
+  {
+    title: "Pulp Fiction",
+    year: 1994,
+    genre: "Crime, Drama",
+    director: "Quentin Tarantino",
+    writer: "Quentin Tarantino"
+  },
+  {
+    title: "Fight Club",
+    year: 1999,
+    genre: "Drama",
+    director: "David Fincher",
+    writer: "Chuck Palahniuk"
+  },
+  {
+    title: "Snatch",
+    year: 2000,
+    genre: "Comedy, Crime",
+    director: "Guy Ritchie",
+    writer: "Guy Ritchie"
+  },
+  {
+    title: "Se7en",
+    year: 1995,
+    genre: "Crime, Drama, Mystery",
+    director: "David Fincher",
+    writer: "Andrew Kevin Walker"
+  },
 ]
 
 // * Generating movie table
@@ -62,6 +90,14 @@ function generateTable(table, data) {
       let text = document.createTextNode(element[key]);
       cell.appendChild(text);
     }
+    // ? Generating delete button
+    let deleteButtonCell = row.insertCell();
+    let deleteText = document.createTextNode('Delete');
+    deleteButtonCell.onclick = function () { deleteRow(row) };
+    deleteButtonCell.appendChild(deleteText);
+    deleteButtonCell.style.cursor = "pointer";
+    deleteButtonCell.style.backgroundColor = "maroon";
+    deleteButtonCell.style.color = "white";
   }
 }
 
@@ -92,6 +128,15 @@ function insertMovie() {
     let text = document.createTextNode(movie[key]);
     cell.appendChild(text);
   }
+  // ? Generating delete button
+  let deleteButtonCell = row.insertCell();
+  let deleteText = document.createTextNode('Delete');
+  deleteButtonCell.onclick = function () { deleteRow(row) };
+  deleteButtonCell.appendChild(deleteText);
+  deleteButtonCell.style.cursor = "pointer";
+  deleteButtonCell.style.backgroundColor = "maroon";
+  deleteButtonCell.style.color = "white";
+
   title.value = '';
   year.value = '';
   genre.value = '';
@@ -170,4 +215,10 @@ function sortTable(row) {
       }
     }
   }
+}
+
+// * Delete row Button
+function deleteRow(x) {
+  if (confirm('Are you sure you want to delete this movie?'))
+    x.parentNode.parentNode.deleteRow(x.rowIndex);
 }

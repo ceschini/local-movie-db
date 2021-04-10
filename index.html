@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+  <title>LMDb</title>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <h1>My Local Movie Database</h1>
+  </header>
+  <main class="container">
+    <!-- Add new movie -->
+    <section class="new-movie-block">
+      <h2>Insert New Movie</h2>
+      <section class="new-movie-form">
+        <div class="new-movie-form-group">
+          <label for="title">Movie title:</label>
+          <input type="text" id="title" name="title">
+        </div>
+        <div class="new-movie-form-group">
+          <label for="year">Year:</label>
+          <input type="text" id="year" name="year">
+        </div>
+        <div class="new-movie-form-group">
+          <label for="genre">Genre:</label>
+          <input type="text" id="genre" name="genre">
+        </div>
+        <div class="new-movie-form-group">
+          <label for="director">Director:</label>
+          <input type="text" id="director" name="director">
+        </div>
+        <div class="new-movie-form-group">
+          <label for="writer">Writer:</label>
+          <input type="text" id="writer" name="writer">
+        </div>
+        <button type="button" onclick="insertMovie()">Insert</button>
+      </section>
+    </section>
+    <!-- Movie list -->
+    <section class="movie-list-block">
+      <!-- Search Box -->
+      <div class="search-box">
+        <label for="search">
+          <h4>Search a movie:</h4>
+        </label>
+        <input type="text" id="search" name="search">
+      </div>
+      <!-- Movie table -->
+      <table id="movie-table">
+
+      </table>
+    </section>
+  </main>
+  <footer>
+    <span>Made by Lucas</span>
+  </footer>
+  <script src="index.js"></script>
+</body>
+
+</html>

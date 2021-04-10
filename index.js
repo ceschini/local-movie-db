@@ -1,14 +1,43 @@
+// * Movies data
 let movies = [
   {
-    title: "Taxi Driver",
-    year: 1971,
-    genre: "drama, thriller",
-    director: "Martin Scorcese",
-    writer: "Martin Scorcese"
+    Title: "Taxi Driver",
+    Year: 1976,
+    Genre: "Crime, Drama",
+    Director: "Martin Scorcese",
+    Writer: "Paul Schrader"
   },
-];
+  {
+    title: "Reservoir Dogs",
+    year: 1992,
+    genre: "Crime, Drama, Thriller",
+    director: "Quentin Tarantino",
+    writer: "Quentin Tarantino"
+  },
+  {
+    title: "Trainspotting",
+    year: 1996,
+    genre: "Drama",
+    director: "Danny Boyle",
+    writer: "Irvine Welsh, John Hodge"
+  },
+  {
+    title: "Contratiempo",
+    year: 2016,
+    genre: "Crime, Drama, Mystery",
+    director: "Oriol Paulo",
+    writer: "Mario Casas, Ana Wagener, Jose Coronado"
+  },
+  {
+    title: "Parasite",
+    year: 2019,
+    genre: "Comedy, Drama, Thriller",
+    director: "Bong Joon Ho",
+    writer: "Bong Joon Ho"
+  }
+]
 
-// Generating movie table
+// * Generating movie table
 // https://www.valentinog.com/blog/html-table/
 
 // Generating movie table headers
@@ -17,6 +46,7 @@ function generateTableHead(table, data) {
   let row = thead.insertRow();
   for (let key of data) {
     let th = document.createElement('th');
+    th.onclick = function () { sortTable(key) };
     let text = document.createTextNode(key);
     th.appendChild(text);
     row.appendChild(th);
@@ -40,6 +70,7 @@ let data = Object.keys(movies[0]);
 generateTable(table, movies);
 generateTableHead(table, data);
 
+// * Insert new movie
 function insertMovie() {
   // prepping object
   let movie = {};
@@ -54,6 +85,7 @@ function insertMovie() {
   movie.director = director.value;
   movie.writer = writer.value;
 
+  // inserting
   let row = table.insertRow();
   for (key in movie) {
     let cell = row.insertCell();
@@ -65,4 +97,77 @@ function insertMovie() {
   genre.value = '';
   director.value = '';
   writer.value = '';
+}
+
+// * Filtering movie titles
+// https://www.w3schools.com/howto/howto_js_filter_table.asp
+document.querySelector("#searchTitle").addEventListener("keyup", searchTitles);
+function searchTitles() {
+  let input, filter, table, tr, td, i, txtValue;
+  input = document.querySelector("#searchTitle");
+  filter = input.value.toUpperCase();
+  table = document.querySelector("#movie-table");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+// * Sort table
+// https://www.w3schools.com/howto/howto_js_sort_table.asp
+function sortTable(row) {
+  let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount, n = 0;
+  if (row == 'year') {
+    n = 1;
+  } else if (row == 'genre') {
+    n = 2;
+  } else if (row == 'director') {
+    n = 3;
+  } else if (row == 'writer') {
+    n = 4;
+  }
+
+  table = document.querySelector("#movie-table");
+  header = table.rows[0].getElementsByTagName("TH")[n]
+  switching = true;
+  dir = "asc";
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount = true;
+    } else {
+      if (!switchcount && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
 }

@@ -22,6 +22,10 @@ td, th {
   padding: 8px;
 }
 
+th {
+  cursor: pointer;
+}
+
 tr:nth-child(even) {
   background-color: #dddddd;
 }
@@ -65,3 +69,4 @@ tr:nth-child(even) {
   display: flex;
   align-items: center;
 }
+

@@ -21,10 +21,6 @@ header {
   background-color: #f5c419;
 }
 
-main {
-  /* min-height: 100%; */
-}
-
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -34,7 +30,6 @@ table {
 td, th {
   border: 1px solid black;
   border-top: none;
-  padding: 8px;
 }
 
 td {
@@ -62,7 +57,6 @@ input {
 .container {
   display: flex;
   justify-content: space-between;
-  border-radius: 10px;
 }
 
 /* Menus */
@@ -73,6 +67,7 @@ input {
   align-items: left;
   background-color: #f0f0f0;
   padding: 1% 2%;
+  overflow: hidden;
 }
 
 /* Search Box */
@@ -81,7 +76,7 @@ input {
   align-items: center;
 }
 
-.search-box input[type=text] {
+.search-box input {
   padding: 6px;
   margin-top: 8px;
   font-size: 17px;
@@ -97,8 +92,6 @@ input {
 
 .new-movie-form button {
   margin-top: 15px;
-
-  /* usual styles */
   padding:10px;
   border:none;
   background-color:#f5c419;

@@ -90,11 +90,13 @@ function generateTable(table, data) {
       let text = document.createTextNode(element[key]);
       cell.appendChild(text);
     }
+
     // ? Generating delete button
     let deleteButtonCell = row.insertCell();
     let deleteText = document.createTextNode('Delete');
     deleteButtonCell.onclick = function () { deleteRow(row) };
     deleteButtonCell.appendChild(deleteText);
+    // styling
     deleteButtonCell.style.cursor = "pointer";
     deleteButtonCell.style.backgroundColor = "maroon";
     deleteButtonCell.style.color = "white";
@@ -123,11 +125,12 @@ function insertMovie() {
 
   // inserting
   let row = table.insertRow();
-  for (key in movie) {
+  for (element in movie) {
     let cell = row.insertCell();
-    let text = document.createTextNode(movie[key]);
+    let text = document.createTextNode(movie[element]);
     cell.appendChild(text);
   }
+
   // ? Generating delete button
   let deleteButtonCell = row.insertCell();
   let deleteText = document.createTextNode('Delete');
@@ -146,6 +149,7 @@ function insertMovie() {
 
 // * Filtering movie titles
 // https://www.w3schools.com/howto/howto_js_filter_table.asp
+
 document.querySelector("#searchTitle").addEventListener("keyup", searchTitles);
 function searchTitles() {
   let input, filter, table, tr, td, i, txtValue;
@@ -155,7 +159,7 @@ function searchTitles() {
   tr = table.getElementsByTagName("tr");
 
   for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[0];
+    td = tr[i].getElementsByTagName("td")[0]; //title
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -170,7 +174,7 @@ function searchTitles() {
 // * Sort table
 // https://www.w3schools.com/howto/howto_js_sort_table.asp
 function sortTable(row) {
-  let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount, n = 0;
+  let table, rows, switching, i, x, y, shouldSwitch, dir, switched, n = 0;
   if (row == 'year') {
     n = 1;
   } else if (row == 'genre') {
@@ -182,7 +186,6 @@ function sortTable(row) {
   }
 
   table = document.querySelector("#movie-table");
-  header = table.rows[0].getElementsByTagName("TH")[n]
   switching = true;
   dir = "asc";
   while (switching) {
@@ -207,9 +210,9 @@ function sortTable(row) {
     if (shouldSwitch) {
       rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
       switching = true;
-      switchcount = true;
+      switched = true;
     } else {
-      if (!switchcount && dir == "asc") {
+      if (!switched && dir == "asc") {
         dir = "desc";
         switching = true;
       }
@@ -218,7 +221,7 @@ function sortTable(row) {
 }
 
 // * Delete row Button
-function deleteRow(x) {
+function deleteRow(row) {
   if (confirm('Are you sure you want to delete this movie?'))
-    x.parentNode.parentNode.deleteRow(x.rowIndex);
+    row.parentNode.parentNode.deleteRow(row.rowIndex);
 }

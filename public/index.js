@@ -1,69 +1,27 @@
-// * Movies data
-let movies = [
-  {
-    Title: "Taxi Driver",
-    Year: 1976,
-    Genre: "Crime, Drama",
-    Director: "Martin Scorcese",
-    Writer: "Paul Schrader",
-  },
-  {
-    title: "Reservoir Dogs",
-    year: 1992,
-    genre: "Crime, Drama, Thriller",
-    director: "Quentin Tarantino",
-    writer: "Quentin Tarantino"
-  },
-  {
-    title: "Trainspotting",
-    year: 1996,
-    genre: "Drama",
-    director: "Danny Boyle",
-    writer: "Irvine Welsh, John Hodge"
-  },
-  {
-    title: "Contratiempo",
-    year: 2016,
-    genre: "Crime, Drama, Mystery",
-    director: "Oriol Paulo",
-    writer: "Mario Casas, Ana Wagener"
-  },
-  {
-    title: "Parasite",
-    year: 2019,
-    genre: "Comedy, Drama, Thriller",
-    director: "Bong Joon Ho",
-    writer: "Bong Joon Ho"
-  },
-  {
-    title: "Pulp Fiction",
-    year: 1994,
-    genre: "Crime, Drama",
-    director: "Quentin Tarantino",
-    writer: "Quentin Tarantino"
-  },
-  {
-    title: "Fight Club",
-    year: 1999,
-    genre: "Drama",
-    director: "David Fincher",
-    writer: "Chuck Palahniuk"
-  },
-  {
-    title: "Snatch",
-    year: 2000,
-    genre: "Comedy, Crime",
-    director: "Guy Ritchie",
-    writer: "Guy Ritchie"
-  },
-  {
-    title: "Se7en",
-    year: 1995,
-    genre: "Crime, Drama, Mystery",
-    director: "David Fincher",
-    writer: "Andrew Kevin Walker"
-  },
-]
+const url = 'http://localhost:3000/movies'
+
+// implementing empty table function
+HTMLElement.prototype.empty = function () {
+  var that = this;
+  while (that.hasChildNodes()) {
+    that.removeChild(that.lastChild);
+  }
+};
+
+updateTable();
+
+function updateTable() {
+  // fetching json file and creating table
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      let table = document.querySelector("#movie-table");
+      table.empty();
+      let headers = Object.keys(data[0]);
+      generateTable(table, data);
+      generateTableHead(table, headers);
+    })
+}
 
 // * Generating movie table
 // https://www.valentinog.com/blog/html-table/
@@ -103,11 +61,6 @@ function generateTable(table, data) {
   }
 }
 
-let table = document.querySelector("#movie-table");
-let data = Object.keys(movies[0]);
-generateTable(table, movies);
-generateTableHead(table, data);
-
 // * Insert new movie
 function insertMovie() {
   // prepping object
@@ -123,23 +76,9 @@ function insertMovie() {
   movie.director = director.value;
   movie.writer = writer.value;
 
-  // inserting
-  let row = table.insertRow();
-  for (element in movie) {
-    let cell = row.insertCell();
-    let text = document.createTextNode(movie[element]);
-    cell.appendChild(text);
-  }
+  axios.post('http://localhost:3000/newmovie', movie).then(resp => updateTable())
 
-  // ? Generating delete button
-  let deleteButtonCell = row.insertCell();
-  let deleteText = document.createTextNode('Delete');
-  deleteButtonCell.onclick = function () { deleteRow(row) };
-  deleteButtonCell.appendChild(deleteText);
-  deleteButtonCell.style.cursor = "pointer";
-  deleteButtonCell.style.backgroundColor = "maroon";
-  deleteButtonCell.style.color = "white";
-
+  // clearing fields
   title.value = '';
   year.value = '';
   genre.value = '';

@@ -1,6 +1,4 @@
-const url = 'http://localhost:3000/movies'
-
-// implementing empty table function
+// adding empty element function to prototype
 HTMLElement.prototype.empty = function () {
   var that = this;
   while (that.hasChildNodes()) {
@@ -8,11 +6,9 @@ HTMLElement.prototype.empty = function () {
   }
 };
 
-updateTable();
-
 function updateTable() {
   // fetching json file and creating table
-  fetch(url)
+  fetch('http://localhost:3000/movies')
     .then(response => response.json())
     .then(data => {
       let table = document.querySelector("#movie-table");
@@ -76,7 +72,7 @@ function insertMovie() {
   movie.director = director.value;
   movie.writer = writer.value;
 
-  axios.post('http://localhost:3000/newmovie', movie).then(resp => updateTable())
+  axios.post('http://localhost:3000/newmovie', movie).then(() => updateTable())
 
   // clearing fields
   title.value = '';
@@ -161,6 +157,10 @@ function sortTable(row) {
 
 // * Delete row Button
 function deleteRow(row) {
-  if (confirm('Are you sure you want to delete this movie?'))
-    row.parentNode.parentNode.deleteRow(row.rowIndex);
+  if (confirm('Are you sure you want to delete this movie?')) {
+    let index = row.rowIndex - 1
+    axios.delete(`http://localhost:3000/deletemovie/${index}`).then(() => updateTable())
+  }
 }
+
+updateTable();

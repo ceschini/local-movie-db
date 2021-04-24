@@ -1,10 +1,14 @@
 const express = require('express')
 const fs = require('fs')
+
 const app = express()
 const port = 3000
 const movies = require('./movies.json')
 
 app.use(express.json())
+
+// serving static files
+app.use(express.static('public'))
 
 app.get('/movies', (req, res) => {
   res.send(movies)
@@ -21,7 +25,7 @@ app.post('/newmovie', (req, res) => {
   } catch (err) {
     console.log(`error writing file: ${err}`);
   }
-  res.send('post complete')
+  res.send('post completed')
 })
 
 app.delete('/deletemovie/:movieid', (req, res) => {
@@ -34,10 +38,9 @@ app.delete('/deletemovie/:movieid', (req, res) => {
   } catch (err) {
     console.log(`error writing file: ${err}`);
   }
-  res.send('delete complete')
+  res.send('delete completed')
 })
-// serving static files
-app.use(express.static('public'))
+
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`)

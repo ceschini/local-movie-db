@@ -8,15 +8,15 @@ HTMLElement.prototype.empty = function () {
 
 function updateTable() {
   // fetching json file and creating table
-  fetch('http://localhost:3000/movies')
-    .then(response => response.json())
-    .then(data => {
+  axios.get('http://localhost:3000/movies')
+    .then(res => {
       let table = document.querySelector("#movie-table");
       table.empty();
-      let headers = Object.keys(data[0]);
-      generateTable(table, data);
+      let movies = res.data
+      let headers = Object.keys(movies[0]);
+      generateTable(table, movies);
       generateTableHead(table, headers);
-    })
+    }).catch(err => console.log('Request Failed', err));
 }
 
 // * Generating movie table
@@ -72,7 +72,9 @@ function insertMovie() {
   movie.director = director.value;
   movie.writer = writer.value;
 
-  axios.post('http://localhost:3000/newmovie', movie).then(() => updateTable())
+  axios.post('http://localhost:3000/newmovie', movie)
+    .then(() => updateTable())
+    .catch(err => console.log('Request Failed', err))
 
   // clearing fields
   title.value = '';
